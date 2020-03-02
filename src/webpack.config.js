@@ -90,6 +90,8 @@ function loaders() {
 
 function plugins() {
   const plugins = [];
+  // Enable babel minify
+  plugins.push(new MinifyPlugin());
 
   if (ENABLE_CACHING) {
     plugins.push(
@@ -118,9 +120,6 @@ function plugins() {
 
   // Ignore all locale files of moment.js
   plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
-
-  // Enable minify
-  plugins.push(new MinifyPlugin());
 
   // Ignore any packages specified in the `ignorePackages` option
   for (let i = 0, l = ignorePackages.length; i < l; i++) {

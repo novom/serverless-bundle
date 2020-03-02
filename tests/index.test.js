@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
 
-const timeout = 10000;
+const timeout = 20000;
 const errorString = "Error ------------------------------------------";
 const eslintErrorString = "no-unused-vars";
 
@@ -136,7 +136,7 @@ function runSlsCommand(cwd, cmd) {
   }
 
   const results = stdout.toString("utf8");
-  console.log(results);
+  // console.log(results);
 
   return results;
 }
