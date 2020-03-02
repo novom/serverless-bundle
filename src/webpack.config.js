@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const slsw = require("serverless-webpack");
-const MinimizerPlugin = require("terser-webpack-plugin");
+const MinimizerPlugin = require("babel-minify-webpack-plugin");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
