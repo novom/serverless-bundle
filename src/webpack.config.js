@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const slsw = require("serverless-webpack");
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
@@ -117,6 +118,9 @@ function plugins() {
 
   // Ignore all locale files of moment.js
   plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
+
+  // Enable minify
+  plugins.push(new MinifyPlugin());
 
   // Ignore any packages specified in the `ignorePackages` option
   for (let i = 0, l = ignorePackages.length; i < l; i++) {

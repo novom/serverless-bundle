@@ -31,6 +31,7 @@
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
+    "babel-minify-webpack-plugin": "^0.3.1",
     "babel-plugin-source-map-support": "^2.1.1",
     "chalk": "^2.4.2",
     "copy-webpack-plugin": "^5.0.3",
