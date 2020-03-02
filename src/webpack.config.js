@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const slsw = require("serverless-webpack");
-const MinifyPlugin = require("babel-minify-webpack-plugin");
+const MinimizerPlugin = require("terser-webpack-plugin");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
@@ -90,8 +90,6 @@ function loaders() {
 
 function plugins() {
   const plugins = [];
-  // Enable babel minify
-  plugins.push(new MinifyPlugin());
 
   if (ENABLE_CACHING) {
     plugins.push(
@@ -163,6 +161,9 @@ module.exports = ignoreWarmupPlugin({
       }
     : // Don't minimize in production
       // Large builds can run out of memory
-      { minimize: false },
+      {
+        minimize: true,
+        minimizer: [new MinimizerPlugin()]
+      },
   plugins: plugins()
 });
