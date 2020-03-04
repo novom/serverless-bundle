@@ -55,7 +55,7 @@ function babelLoader() {
             }
           }
         ],
-        "minify"
+        require.resolve("babel-preset-minify"),
       ]
     }
   };
