@@ -1,7 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
 const slsw = require("serverless-webpack");
-const MinimizerPlugin = require("babel-minify-webpack-plugin");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
@@ -48,6 +47,7 @@ function babelLoader() {
       cacheCompression: false,
       plugins: plugins.map(require.resolve),
       presets: [
+        "minify",
         [
           require.resolve("@babel/preset-env"),
           {
@@ -162,8 +162,7 @@ module.exports = ignoreWarmupPlugin({
     : // Don't minimize in production
       // Large builds can run out of memory
       {
-        minimize: true,
-        minimizer: [new MinimizerPlugin()]
+        minimize: false,
       },
   plugins: plugins()
 });
