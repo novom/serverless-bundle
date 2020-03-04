@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const slsw = require("serverless-webpack");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
-const MinifyPlugin = require("babel-minify-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const config = require("./config");
@@ -40,6 +39,10 @@ function babelLoader() {
     plugins.push("babel-plugin-source-map-support");
   }
 
+  if (ENABLE_MINIFY) {
+    plugins.push("babel-minify-webpack-plugin");
+  }
+
   return {
     loader: "babel-loader",
     options: {
@@ -56,7 +59,14 @@ function babelLoader() {
               node: nodeVersion
             }
           }
-        ]
+        ],
+        /* [
+          require.resolve("babel-preset-minify"),
+          {
+            builtIns: false,
+            mangle: false
+          }
+        ] */
       ]
     }
   };
@@ -106,7 +116,7 @@ function plugins() {
   if (copyFiles) {
     plugins.push(
       new CopyWebpackPlugin(
-        copyFiles.map(function(data) {
+        copyFiles.map(function (data) {
           return {
             to: data.to,
             context: servicePath,
@@ -124,13 +134,6 @@ function plugins() {
   for (let i = 0, l = ignorePackages.length; i < l; i++) {
     plugins.push(
       new webpack.IgnorePlugin(new RegExp("^" + ignorePackages[i] + "$"))
-    );
-  }
-
-
-  if (ENABLE_MINIFY) {
-    plugins.push(
-      new MinifyPlugin()
     );
   }
 
@@ -163,12 +166,12 @@ module.exports = ignoreWarmupPlugin({
   // PERFORMANCE ONLY FOR DEVELOPMENT
   optimization: isLocal
     ? {
-        splitChunks: false,
-        removeEmptyChunks: false,
-        removeAvailableModules: false
-      }
+      splitChunks: false,
+      removeEmptyChunks: false,
+      removeAvailableModules: false
+    }
     : // Don't minimize in production
-      // Large builds can run out of memory
-      { minimize: false },
+    // Large builds can run out of memory
+    { minimize: false },
   plugins: plugins()
 });
