@@ -47,7 +47,6 @@ function babelLoader() {
       cacheCompression: false,
       plugins: plugins.map(require.resolve),
       presets: [
-        "minify",
         [
           require.resolve("@babel/preset-env"),
           {
@@ -55,7 +54,8 @@ function babelLoader() {
               node: nodeVersion
             }
           }
-        ]
+        ],
+        "minify"
       ]
     }
   };
