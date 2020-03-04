@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const slsw = require("serverless-webpack");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const config = require("./config");
@@ -16,6 +17,7 @@ const copyFiles = config.options.copyFiles;
 const ignorePackages = config.options.ignorePackages;
 
 const ENABLE_STATS = config.options.stats;
+const ENABLE_MINIFY = config.options.minify;
 const ENABLE_LINTING = config.options.linting;
 const ENABLE_SOURCE_MAPS = config.options.sourcemaps;
 const ENABLE_CACHING = isLocal ? config.options.caching : false;
@@ -122,6 +124,13 @@ function plugins() {
   for (let i = 0, l = ignorePackages.length; i < l; i++) {
     plugins.push(
       new webpack.IgnorePlugin(new RegExp("^" + ignorePackages[i] + "$"))
+    );
+  }
+
+
+  if (ENABLE_MINIFY) {
+    plugins.push(
+      new MinifyPlugin()
     );
   }
 
